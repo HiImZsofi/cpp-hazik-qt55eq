@@ -14,7 +14,6 @@ public:
     Fraction(int numerator, int denominator);
 
     int getNumerator() const;
-
     int getDenominator() const;
 };
 

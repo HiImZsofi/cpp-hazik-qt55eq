@@ -3,6 +3,8 @@
 //
 
 #include "Fraction.h"
+
+#include <numeric>
 #include <stdexcept>
 
 Fraction::Fraction(int numerator, int denominator) {
@@ -15,8 +17,9 @@ Fraction::Fraction(int numerator, int denominator) {
         denominator = -denominator;
     }
 
-    this->numerator = numerator;
-    this->denominator = denominator;
+    const int gcd = std::gcd(std::abs(numerator), denominator);
+    this->numerator = numerator / gcd;
+    this->denominator = denominator / gcd;
 }
 
 int Fraction::getDenominator() const {
