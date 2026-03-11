@@ -16,6 +16,16 @@ public:
     Fraction(double decimal);
     Fraction(const Fraction& other);
 
+    Fraction operator+(const Fraction& other) const;
+    Fraction operator-(const Fraction& other) const;
+    Fraction operator*(const Fraction& other) const;
+    Fraction operator/(const Fraction& other) const;
+
+    Fraction& operator+=(const Fraction& other);
+    Fraction& operator-=(const Fraction& other);
+    Fraction& operator*=(const Fraction& other);
+    Fraction& operator/=(const Fraction& other);
+
     int getNumerator() const;
     int getDenominator() const;
 };

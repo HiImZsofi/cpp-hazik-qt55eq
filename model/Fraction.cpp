@@ -35,7 +35,56 @@ Fraction::Fraction(const double decimal) {
     this->denominator = denom / gcd;
 }
 
-Fraction::Fraction(const Fraction &other) : numerator(other.numerator), denominator(other.denominator) {} //todo mi ez az issue
+Fraction::Fraction(const Fraction &other) : numerator(other.numerator), denominator(other.denominator) {
+} //todo mi ez az issue
+
+Fraction Fraction::operator+(const Fraction &other) const {
+    return {
+        numerator * other.denominator + other.numerator * denominator,
+        denominator * other.denominator
+    };
+}
+
+Fraction Fraction::operator-(const Fraction &other) const {
+    return {
+        numerator * other.denominator - other.numerator * denominator,
+        denominator * other.denominator
+    };
+}
+
+Fraction Fraction::operator*(const Fraction &other) const {
+    return {
+        numerator * other.numerator,
+        denominator * other.denominator
+    };
+}
+
+Fraction Fraction::operator/(const Fraction &other) const {
+    return {
+        numerator * other.denominator,
+        denominator * other.numerator
+    };
+}
+
+Fraction &Fraction::operator+=(const Fraction &other) {
+    *this = *this + other;
+    return *this;
+}
+
+Fraction &Fraction::operator-=(const Fraction &other) {
+    *this = *this - other;
+    return *this;
+}
+
+Fraction &Fraction::operator*=(const Fraction &other) {
+    *this = *this * other;
+    return *this;
+}
+
+Fraction &Fraction::operator/=(const Fraction &other) {
+    *this = *this / other;
+    return *this;
+}
 
 int Fraction::getDenominator() const {
     return denominator;
