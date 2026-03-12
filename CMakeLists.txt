@@ -11,4 +11,6 @@ add_executable(cpphazik main.cpp
         model/arithmetics/FractionArithmetic.cpp
         model/arithmetics/FractionArithmetic.h
         model/comparison/FractionComparison.cpp
-        model/comparison/FractionComparison.h)
+        model/comparison/FractionComparison.h
+        model/controller/FractionIOController.cpp
+        model/controller/FractionIOController.h)
