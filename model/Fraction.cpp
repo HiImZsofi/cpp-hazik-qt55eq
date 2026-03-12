@@ -79,6 +79,35 @@ Fraction::operator std::string() const {
     return std::to_string(numerator) + "/" + std::to_string(denominator);
 }
 
+/**
+ * std::string::npos -> / not found (tort egesz szam)
+ * std::stoi -> string to int
+ *
+ * @param str
+ */
+Fraction::Fraction(const std::string &str) {
+    const size_t slash = str.find('/');
+    if (slash == std::string::npos) {
+        numerator = std::stoi(str);
+        denominator = 1;
+    } else {
+        numerator = std::stoi(str.substr(0, slash));
+        denominator = std::stoi(str.substr(slash + 1));
+    }
+
+    if (denominator == 0) {
+        throw std::invalid_argument("A nevező nem lehet nulla");
+    }
+    if (denominator < 0) {
+        numerator = -numerator;
+        denominator = -denominator;
+    }
+
+    const int gcd = std::gcd(std::abs(numerator), denominator);
+    numerator /= gcd;
+    denominator /= gcd;
+}
+
 int Fraction::getDenominator() const {
     return denominator;
 }

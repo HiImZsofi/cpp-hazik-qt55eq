@@ -27,6 +27,8 @@ public:
     explicit operator bool() const;
     explicit operator std::string() const;
 
+    Fraction(const std::string& str);
+
     [[nodiscard]] int getNumerator() const;
     [[nodiscard]] int getDenominator() const;
 };
