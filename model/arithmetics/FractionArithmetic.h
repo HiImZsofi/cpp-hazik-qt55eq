@@ -4,7 +4,7 @@
 
 #ifndef CPPHAZIK_FRACTIONARITHMETIC_H
 #define CPPHAZIK_FRACTIONARITHMETIC_H
-#include "Fraction.h"
+#include "../Fraction.h"
 
 Fraction operator+(const Fraction& a, const Fraction& b);
 Fraction operator-(const Fraction& a, const Fraction& b);

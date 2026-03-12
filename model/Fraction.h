@@ -4,6 +4,7 @@
 
 #ifndef CPPHAZIK_FRACTION_H
 #define CPPHAZIK_FRACTION_H
+#include <string>
 
 
 class Fraction {
@@ -20,6 +21,11 @@ public:
     Fraction& operator-=(const Fraction& other);
     Fraction& operator*=(const Fraction& other);
     Fraction& operator/=(const Fraction& other);
+
+    explicit operator int() const;
+    explicit operator double() const;
+    explicit operator bool() const;
+    explicit operator std::string() const;
 
     [[nodiscard]] int getNumerator() const;
     [[nodiscard]] int getDenominator() const;

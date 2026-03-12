@@ -3,6 +3,7 @@
 //
 
 #include "Fraction.h"
+#include "arithmetics/FractionArithmetic.h"
 
 #include <numeric>
 #include <stdexcept>
@@ -38,10 +39,45 @@ Fraction::Fraction(const double decimal) {
 Fraction::Fraction(const Fraction &other) : numerator(other.numerator), denominator(other.denominator) {
 } //todo mi ez az issue
 
-Fraction& Fraction::operator+=(const Fraction& other) { *this = *this + other; return *this; }
-Fraction& Fraction::operator-=(const Fraction& other) { *this = *this - other; return *this; }
-Fraction& Fraction::operator*=(const Fraction& other) { *this = *this * other; return *this; }
-Fraction& Fraction::operator/=(const Fraction& other) { *this = *this / other; return *this; }
+Fraction &Fraction::operator+=(const Fraction &other) {
+    *this = *this + other;
+    return *this;
+}
+
+Fraction &Fraction::operator-=(const Fraction &other) {
+    *this = *this - other;
+    return *this;
+}
+
+Fraction &Fraction::operator*=(const Fraction &other) {
+    *this = *this * other;
+    return *this;
+}
+
+Fraction &Fraction::operator/=(const Fraction &other) {
+    *this = *this / other;
+    return *this;
+}
+
+Fraction::operator int() const {
+    return numerator / denominator;
+}
+
+Fraction::operator double() const {
+    return static_cast<double>(numerator) / denominator;
+}
+
+Fraction::operator bool() const {
+    return numerator != 0;
+}
+
+Fraction::operator std::string() const {
+    if (denominator == 1) {
+        return std::to_string(numerator);
+    }
+
+    return std::to_string(numerator) + "/" + std::to_string(denominator);
+}
 
 int Fraction::getDenominator() const {
     return denominator;
