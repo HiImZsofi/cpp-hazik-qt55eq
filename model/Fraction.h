@@ -15,7 +15,6 @@ public:
     Fraction(int numerator, int denominator);
     Fraction(int wholeNum);
     Fraction(double decimal);
-    Fraction(const Fraction& other);
 
     Fraction& operator+=(const Fraction& other);
     Fraction& operator-=(const Fraction& other);
@@ -27,10 +26,17 @@ public:
     explicit operator bool() const;
     explicit operator std::string() const;
 
-    Fraction(const std::string& str);
+    static Fraction parse(const std::string& str);
 
     [[nodiscard]] int getNumerator() const;
     [[nodiscard]] int getDenominator() const;
+
+    bool operator==(const Fraction &other) const;
+    bool operator!=(const Fraction &other) const;
+    bool operator<(const Fraction &other) const;
+    bool operator>(const Fraction &other) const;
+    bool operator<=(const Fraction &other) const;
+    bool operator>=(const Fraction &other) const;
 };
 
 

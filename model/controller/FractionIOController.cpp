@@ -21,6 +21,6 @@ std::istream &operator>>(std::istream &is, Fraction &f) {
         char slash;
         is >> slash >> denom;
     }
-    f = Fraction(num, denom);
+    f = {num, denom};
     return is;
 }

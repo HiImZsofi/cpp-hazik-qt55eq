@@ -4,30 +4,18 @@
 
 #include "FractionArithmetic.h"
 
-Fraction operator+(const Fraction &a, const Fraction &b) {
-    return {
-        a.getNumerator() * b.getDenominator() + b.getNumerator() * a.getDenominator(),
-        a.getDenominator() * b.getDenominator()
-    };
+Fraction operator+(Fraction a, const Fraction &b) {
+    return a += b;
 }
 
-Fraction operator-(const Fraction &a, const Fraction &b) {
-    return {
-        a.getNumerator() * b.getDenominator() - b.getNumerator() * a.getDenominator(),
-        a.getDenominator() * b.getDenominator()
-    };
+Fraction operator-(Fraction a, const Fraction &b) {
+    return a -= b;
 }
 
-Fraction operator*(const Fraction &a, const Fraction &b) {
-    return {
-        a.getNumerator() * b.getNumerator(),
-        a.getDenominator() * b.getDenominator()
-    };
+Fraction operator*(Fraction a, const Fraction &b) {
+    return a *= b;
 }
 
-Fraction operator/(const Fraction &a, const Fraction &b) {
-    return {
-        a.getNumerator() * b.getDenominator(),
-        a.getDenominator() * b.getNumerator()
-    };
+Fraction operator/(Fraction a, const Fraction &b) {
+    return a /= b;
 }

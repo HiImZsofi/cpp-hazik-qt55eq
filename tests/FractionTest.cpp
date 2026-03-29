@@ -5,7 +5,6 @@
 #include <gtest/gtest.h>
 #include "../model/Fraction.h"
 #include "../model/arithmetics/FractionArithmetic.h"
-#include "../model/comparison/FractionComparison.h"
 
 TEST(FractionTest, ConstructorReduces) {
     const Fraction f(4,8);
@@ -24,7 +23,7 @@ TEST(FractionTest, Comparison) {
 }
 
 TEST(FractionTest, ParseString) {
-    const Fraction f("3/4");
+    const Fraction f = Fraction::parse("3/4");
     EXPECT_EQ(f.getNumerator(), 3);
     EXPECT_EQ(f.getDenominator(), 4);
 }

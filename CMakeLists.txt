@@ -1,18 +1,12 @@
-cmake_minimum_required(VERSION 4.1)
+cmake_minimum_required(VERSION 3.28)
 project(cpphazik)
 
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(cpphazik main.cpp
         model/Fraction.cpp
-        model/Fraction.h
-        model/Fraction.cpp
         model/arithmetics/FractionArithmetic.cpp
-        model/arithmetics/FractionArithmetic.h
-        model/comparison/FractionComparison.cpp
-        model/comparison/FractionComparison.h
-        model/controller/FractionIOController.cpp
-        model/controller/FractionIOController.h)
+        model/controller/FractionIOController.cpp)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -27,7 +21,6 @@ add_executable(cpphazik_tests
         tests/FractionTest.cpp
         model/Fraction.cpp
         model/arithmetics/FractionArithmetic.cpp
-        model/comparison/FractionComparison.cpp
         model/controller/FractionIOController.cpp
 )
 target_link_libraries(cpphazik_tests gtest_main)

@@ -8,19 +8,15 @@
 #include <numeric>
 #include <stdexcept>
 
-Fraction::Fraction(int numerator, int denominator) {
+Fraction::Fraction(const int numerator, const int denominator) {
     if (denominator == 0) {
         throw std::invalid_argument("A nevező nem lehet nulla");
     }
 
-    if (denominator < 0) {
-        numerator = -numerator;
-        denominator = -denominator;
-    }
-
-    const int gcd = std::gcd(std::abs(numerator), denominator);
-    this->numerator = numerator / gcd;
-    this->denominator = denominator / gcd;
+    const int sign = denominator < 0 ? -1 : 1;
+    const int gcd = std::gcd(std::abs(numerator), std::abs(denominator));
+    this->numerator = sign * numerator / gcd;
+    this->denominator = sign * denominator / gcd;
 }
 
 Fraction::Fraction(const int wholeNum) : numerator(wholeNum), denominator(1) {
@@ -29,32 +25,41 @@ Fraction::Fraction(const int wholeNum) : numerator(wholeNum), denominator(1) {
 Fraction::Fraction(const double decimal) {
     constexpr int precision = 1000000;
     const int nom = static_cast<int>(decimal * precision);
-    constexpr int denom = precision;
-    const int gcd = std::gcd(std::abs(nom), denom);
+    const int gcd = std::gcd(std::abs(nom), precision);
 
     this->numerator = nom / gcd;
-    this->denominator = denom / gcd;
+    this->denominator = precision / gcd;
 }
 
-Fraction::Fraction(const Fraction &other) = default;
-
 Fraction &Fraction::operator+=(const Fraction &other) {
-    *this = *this + other;
+    *this = Fraction(
+        numerator * other.denominator + other.numerator * denominator,
+        denominator * other.denominator
+    );
     return *this;
 }
 
 Fraction &Fraction::operator-=(const Fraction &other) {
-    *this = *this - other;
+    *this = Fraction(
+        numerator * other.denominator - other.numerator * denominator,
+        denominator * other.denominator
+    );
     return *this;
 }
 
 Fraction &Fraction::operator*=(const Fraction &other) {
-    *this = *this * other;
+    *this = Fraction(
+        numerator * other.numerator,
+        denominator * other.denominator
+    );
     return *this;
 }
 
 Fraction &Fraction::operator/=(const Fraction &other) {
-    *this = *this / other;
+    *this = Fraction(
+        numerator * other.denominator,
+        denominator * other.numerator
+    );
     return *this;
 }
 
@@ -84,27 +89,42 @@ Fraction::operator std::string() const {
  *
  * @param str
  */
-Fraction::Fraction(const std::string &str) {
-    const size_t slash = str.find('/');
-    if (slash == std::string::npos) {
-        numerator = std::stoi(str);
-        denominator = 1;
+Fraction Fraction::parse(const std::string &str) {
+    int num, denom;
+
+    if (const size_t slash = str.find('/'); slash == std::string::npos) {
+        num = std::stoi(str);
+        denom = 1;
     } else {
-        numerator = std::stoi(str.substr(0, slash));
-        denominator = std::stoi(str.substr(slash + 1));
+        num = std::stoi(str.substr(0, slash));
+        denom = std::stoi(str.substr(slash + 1));
     }
 
-    if (denominator == 0) {
-        throw std::invalid_argument("A nevező nem lehet nulla");
-    }
-    if (denominator < 0) {
-        numerator = -numerator;
-        denominator = -denominator;
-    }
+    return {num, denom};
+}
 
-    const int gcd = std::gcd(std::abs(numerator), denominator);
-    numerator /= gcd;
-    denominator /= gcd;
+bool Fraction::operator==(const Fraction &other) const {
+    return numerator == other.numerator && denominator == other.denominator;
+}
+
+bool Fraction::operator!=(const Fraction &other) const {
+    return !(*this == other);
+}
+
+bool Fraction::operator<(const Fraction &other) const {
+    return numerator * other.denominator < other.numerator * denominator;
+}
+
+bool Fraction::operator>(const Fraction &other) const {
+    return other < *this;
+}
+
+bool Fraction::operator<=(const Fraction &other) const {
+    return !(*this > other);
+}
+
+bool Fraction::operator>=(const Fraction &other) const {
+    return !(*this < other);
 }
 
 int Fraction::getDenominator() const {

@@ -6,12 +6,12 @@
 #define CPPHAZIK_FRACTIONARITHMETIC_H
 #include "../Fraction.h"
 
-Fraction operator+(const Fraction &a, const Fraction &b);
+Fraction operator+(Fraction a, const Fraction &b);
 
-Fraction operator-(const Fraction &a, const Fraction &b);
+Fraction operator-(Fraction a, const Fraction &b);
 
-Fraction operator*(const Fraction &a, const Fraction &b);
+Fraction operator*(Fraction a, const Fraction &b);
 
-Fraction operator/(const Fraction &a, const Fraction &b);
+Fraction operator/(Fraction a, const Fraction &b);
 
 #endif //CPPHAZIK_FRACTIONARITHMETIC_H
