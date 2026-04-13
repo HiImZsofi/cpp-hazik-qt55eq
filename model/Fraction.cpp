@@ -8,58 +8,47 @@
 #include <numeric>
 #include <stdexcept>
 
-Fraction::Fraction(const int numerator, const int denominator) {
+Fraction::Fraction(const int numerator, const int denominator) : numerator(numerator), denominator(denominator) {
     if (denominator == 0) {
         throw std::invalid_argument("A nevező nem lehet nulla");
     }
 
     const int sign = denominator < 0 ? -1 : 1;
     const int gcd = std::gcd(std::abs(numerator), std::abs(denominator));
-    this->numerator = sign * numerator / gcd;
-    this->denominator = sign * denominator / gcd;
+    this->numerator /= gcd;
+    this->numerator *= sign;
+    this->denominator /= gcd;
+    this->denominator *= sign;
 }
 
 Fraction::Fraction(const int wholeNum) : numerator(wholeNum), denominator(1) {
 }
 
-Fraction::Fraction(const double decimal) {
-    constexpr int precision = 1000000;
-    const int nom = static_cast<int>(decimal * precision);
-    const int gcd = std::gcd(std::abs(nom), precision);
-
-    this->numerator = nom / gcd;
-    this->denominator = precision / gcd;
+Fraction::Fraction(const double decimal)
+    : Fraction(static_cast<int>(decimal * 1000000), 1000000) {
 }
 
 Fraction &Fraction::operator+=(const Fraction &other) {
-    *this = Fraction(
-        numerator * other.denominator + other.numerator * denominator,
-        denominator * other.denominator
-    );
+    set(numerator * other.denominator + other.numerator * denominator,
+        denominator * other.denominator);
     return *this;
 }
 
 Fraction &Fraction::operator-=(const Fraction &other) {
-    *this = Fraction(
-        numerator * other.denominator - other.numerator * denominator,
-        denominator * other.denominator
-    );
+    set(numerator * other.denominator - other.numerator * denominator,
+        denominator * other.denominator);
     return *this;
 }
 
 Fraction &Fraction::operator*=(const Fraction &other) {
-    *this = Fraction(
-        numerator * other.numerator,
-        denominator * other.denominator
-    );
+    set(numerator * other.numerator,
+        denominator * other.denominator);
     return *this;
 }
 
 Fraction &Fraction::operator/=(const Fraction &other) {
-    *this = Fraction(
-        numerator * other.denominator,
-        denominator * other.numerator
-    );
+    set(numerator * other.denominator,
+        denominator * other.numerator);
     return *this;
 }
 
@@ -112,7 +101,7 @@ bool Fraction::operator!=(const Fraction &other) const {
 }
 
 bool Fraction::operator<(const Fraction &other) const {
-    return numerator * other.denominator < other.numerator * denominator;
+    return static_cast<double>(*this) < static_cast<double>(other);
 }
 
 bool Fraction::operator>(const Fraction &other) const {
@@ -127,10 +116,14 @@ bool Fraction::operator>=(const Fraction &other) const {
     return !(*this < other);
 }
 
-int Fraction::getDenominator() const {
-    return denominator;
-}
 
-int Fraction::getNumerator() const {
-    return numerator;
+void Fraction::set(const int num, const int denom) {
+    if (denom == 0) {
+        throw std::invalid_argument("A nevező nem lehet nulla");
+    }
+
+    const int sign = denom < 0 ? -1 : 1;
+    const int gcd = std::gcd(std::abs(num), std::abs(denom));
+    this->numerator = sign * num / gcd;
+    this->denominator = sign * denom / gcd;
 }

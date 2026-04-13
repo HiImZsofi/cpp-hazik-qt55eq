@@ -28,8 +28,7 @@ public:
 
     static Fraction parse(const std::string& str);
 
-    [[nodiscard]] int getNumerator() const;
-    [[nodiscard]] int getDenominator() const;
+    void set(int num, int denom);
 
     bool operator==(const Fraction &other) const;
     bool operator!=(const Fraction &other) const;

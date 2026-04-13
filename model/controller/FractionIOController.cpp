@@ -5,12 +5,7 @@
 #include "FractionIOController.h"
 
 std::ostream &operator<<(std::ostream &os, const Fraction &f) {
-    if (f.getDenominator() == 1) {
-        os << f.getNumerator();
-    } else {
-        os << f.getNumerator() << "/" << f.getDenominator();
-    }
-
+    os << static_cast<std::string>(f);
     return os;
 }
 
@@ -21,6 +16,6 @@ std::istream &operator>>(std::istream &is, Fraction &f) {
         char slash;
         is >> slash >> denom;
     }
-    f = {num, denom};
+    f.set(num, denom);
     return is;
 }

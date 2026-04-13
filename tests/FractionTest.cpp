@@ -7,9 +7,7 @@
 #include "../model/arithmetics/FractionArithmetic.h"
 
 TEST(FractionTest, ConstructorReduces) {
-    const Fraction f(4,8);
-    EXPECT_EQ(f.getNumerator(), 1);
-    EXPECT_EQ(f.getDenominator(), 2);
+    EXPECT_EQ(Fraction(4, 8), Fraction(1, 2));
 }
 
 TEST(FractionTest, Addition) {
@@ -23,7 +21,5 @@ TEST(FractionTest, Comparison) {
 }
 
 TEST(FractionTest, ParseString) {
-    const Fraction f = Fraction::parse("3/4");
-    EXPECT_EQ(f.getNumerator(), 3);
-    EXPECT_EQ(f.getDenominator(), 4);
+    EXPECT_EQ(Fraction::parse("3/4"), Fraction(3, 4));
 }
