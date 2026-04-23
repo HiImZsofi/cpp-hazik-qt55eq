@@ -10,6 +10,4 @@
 
 std::ostream &operator<<(std::ostream &os, const Fraction &f);
 
-std::istream &operator>>(std::istream &is, Fraction &f);
-
 #endif //CPPHAZIK_FRACTIONIOCONTROLLER_H

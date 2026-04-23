@@ -4,6 +4,7 @@
 
 #ifndef CPPHAZIK_FRACTION_H
 #define CPPHAZIK_FRACTION_H
+#include <iosfwd>
 #include <string>
 
 
@@ -28,7 +29,7 @@ public:
 
     static Fraction parse(const std::string& str);
 
-    void set(int num, int denom);
+    friend std::istream& operator>>(std::istream& is, Fraction& f);
 
     bool operator==(const Fraction &other) const;
     bool operator!=(const Fraction &other) const;

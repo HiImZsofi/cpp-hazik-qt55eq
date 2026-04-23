@@ -6,6 +6,7 @@
 #include "arithmetics/FractionArithmetic.h"
 
 #include <numeric>
+#include <sstream>
 #include <stdexcept>
 
 Fraction::Fraction(const int numerator, const int denominator) : numerator(numerator), denominator(denominator) {
@@ -29,26 +30,24 @@ Fraction::Fraction(const double decimal)
 }
 
 Fraction &Fraction::operator+=(const Fraction &other) {
-    set(numerator * other.denominator + other.numerator * denominator,
-        denominator * other.denominator);
+    *this = Fraction(numerator * other.denominator + other.numerator * denominator,
+                     denominator * other.denominator);
     return *this;
 }
 
 Fraction &Fraction::operator-=(const Fraction &other) {
-    set(numerator * other.denominator - other.numerator * denominator,
-        denominator * other.denominator);
-    return *this;
+    return *this += Fraction(-other.numerator, other.denominator);
 }
 
 Fraction &Fraction::operator*=(const Fraction &other) {
-    set(numerator * other.numerator,
-        denominator * other.denominator);
+    *this = Fraction(numerator * other.numerator,
+                     denominator * other.denominator);
     return *this;
 }
 
 Fraction &Fraction::operator/=(const Fraction &other) {
-    set(numerator * other.denominator,
-        denominator * other.numerator);
+    *this = Fraction(numerator * other.denominator,
+                     denominator * other.numerator);
     return *this;
 }
 
@@ -72,24 +71,10 @@ Fraction::operator std::string() const {
     return std::to_string(numerator) + "/" + std::to_string(denominator);
 }
 
-/**
- * std::string::npos -> / not found (tort egesz szam)
- * std::stoi -> string to int
- *
- * @param str
- */
 Fraction Fraction::parse(const std::string &str) {
-    int num, denom;
-
-    if (const size_t slash = str.find('/'); slash == std::string::npos) {
-        num = std::stoi(str);
-        denom = 1;
-    } else {
-        num = std::stoi(str.substr(0, slash));
-        denom = std::stoi(str.substr(slash + 1));
-    }
-
-    return {num, denom};
+    Fraction result(0);
+    std::istringstream(str) >> result;
+    return result;
 }
 
 bool Fraction::operator==(const Fraction &other) const {
@@ -114,16 +99,4 @@ bool Fraction::operator<=(const Fraction &other) const {
 
 bool Fraction::operator>=(const Fraction &other) const {
     return !(*this < other);
-}
-
-
-void Fraction::set(const int num, const int denom) {
-    if (denom == 0) {
-        throw std::invalid_argument("A nevező nem lehet nulla");
-    }
-
-    const int sign = denom < 0 ? -1 : 1;
-    const int gcd = std::gcd(std::abs(num), std::abs(denom));
-    this->numerator = sign * num / gcd;
-    this->denominator = sign * denom / gcd;
 }
